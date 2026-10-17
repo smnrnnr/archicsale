@@ -54,7 +54,10 @@
     :root {
       /* expressive tweak inputs */
       --accent-raw:   rgb(173,109,230);   /* chosen accent swatch */
-      --radius-field: 36px;               /* pills / panel corners */
+      --radius-field: 36px;               /* Pillen: halbe Hoehe -> Stadionform */
+      --radius-panel: 36px;               /* Flaechen: schrumpft mit den Stufen */
+      --kontur: 3px;                      /* Strichstaerke: schrumpft mit den Stufen */
+      --radius-liste: 24px;               /* Auswahlliste: flacher als die Flaechen */
       --radius-round: 999px;              /* toggles / buttons */
 
       /* derived tokens */
@@ -90,7 +93,7 @@
       font-family: "Space Grotesk", sans-serif;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
-      padding: clamp(28px, 4vw, 64px);
+      padding: 64px;
     }
 
     .page {
@@ -98,21 +101,21 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - clamp(56px, 8vw, 128px));
+      min-height: calc(100vh - 128px);
     }
 
     /* ── Header ───────────────────────────────────────── */
     .topbar {
       display: flex;
       align-items: flex-start;
-      gap: clamp(48px, 6vw, 104px);
-      margin-bottom: clamp(40px, 6vw, 88px);
+      gap: 104px;
+      margin-bottom: 88px;
     }
 
     h1 {
       font-weight: 500;
-      font-size: clamp(48px, 13vw, 100px);
-      line-height: 0.98;
+      font-size: 96px;
+      line-height: 1;  /* Ausnahme: Displaygroesse bleibt eng, Faktor 1/1 statt 3/2 */
       margin: 0;
       letter-spacing: -0.01em;
       overflow-wrap: break-word;
@@ -134,7 +137,8 @@
 
     .toggle {
       display: flex;
-      border: 3px solid var(--border);
+      --line: var(--border);
+      box-shadow: inset 0 0 0 var(--kontur) var(--line);
       border-radius: var(--radius-round);
       padding: 8px;
       gap: 0;
@@ -146,6 +150,7 @@
       font-family: inherit;
       font-weight: 700;
       font-size: 18px;
+      line-height: 1.5;
       letter-spacing: 0.01em;
       color: var(--purple);
       background: transparent;
@@ -178,7 +183,7 @@
 
     /* Stage 3: toggles below h1, full width, left-aligned, side-by-side */
     @media (max-width: 1024px) {
-      .topbar { flex-direction: column; gap: clamp(36px, 5vw, 50px); }
+      .topbar { flex-direction: column; }
       .topbar > .toggles { width: auto; }
       .toggles { justify-content: flex-start; flex-wrap: nowrap; }
     }
@@ -192,24 +197,19 @@
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(48px, 6vw, 104px);
+      gap: 104px;
       align-items: stretch;
-    }
-
-    @media (max-width: 880px) {
-      .grid { grid-template-columns: 1fr; gap: 0; }
-      .output { margin-top: clamp(34px, 4vw, 52px); }
     }
 
     .label {
       display: block;
       font-weight: 500;
       font-size: 36px;
-      line-height: 1;
-      margin: 0 0 clamp(32px, 3.6vw, 60px);
+      line-height: 1.5;
+      margin: 0 0 24px;
     }
 
-    .field { margin-bottom: clamp(34px, 4vw, 52px); }
+    .field { margin-bottom: 48px; }
     /* last input field ends the column exactly at its pill, so the
        Zurücksetzen button can align to the Zielmaßstab field */
     .inputs .field:last-child { margin-bottom: 0; }
@@ -227,26 +227,27 @@
       align-items: center;
       width: 100%;
       min-height: 72px;
-      border: 3px solid var(--border);
+      --line: var(--border);
+      box-shadow: inset 0 0 0 var(--kontur) var(--line);
       border-radius: var(--radius-field);
       background: transparent;
-      transition: border-color .18s ease;
+      transition: box-shadow .18s ease;
     }
 
-    .pill:focus-within { border-color: var(--purple); }
+    .pill:focus-within { --line: var(--purple); }
 
     .pill input,
     .pill select {
       font-family: inherit;
       font-weight: 500;
-      font-size: 27px;
+      font-size: 24px;
       color: var(--purple);
       background: transparent;
       border: none;
       outline: none;
       width: 100%;
       padding: 12px 30px;
-      line-height: 1;
+      line-height: 1.5;
     }
 
     .pill input::placeholder { color: var(--purple); opacity: .55; }
@@ -283,24 +284,24 @@
       display: grid;
       grid-template-columns: 1.6fr 1fr;
       gap: 24px;
-      margin-bottom: clamp(34px, 4vw, 52px);
+      margin-bottom: 48px;
     }
     .row-2 .field { margin-bottom: 0; }
 
     /* ── Custom select (replaces native dropdown) ────── */
     .pill.is-custom { cursor: pointer; user-select: none; }
     .pill.is-custom > select { display: none; }
-    .pill.is-custom:focus-visible { outline: none; border-color: var(--purple); }
-    .pill.open { border-color: var(--purple); z-index: 60; }
+    .pill.is-custom:focus-visible { --line: var(--purple); }
+    .pill.open { --line: var(--purple); z-index: 60; }
     .pill.has-chevron.open::after { transform: translateY(-50%) rotate(180deg); }
 
     .pill-value {
       font-weight: 500;
-      font-size: 27px;
+      font-size: 24px;
       color: var(--purple);
       width: 100%;
       padding: 12px 64px 12px 30px;
-      line-height: 1;
+      line-height: 1.5;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -315,11 +316,10 @@
       display: none;
       flex-direction: column;
       gap: 2px;
-      padding: 14px;
-      border: 3px solid var(--purple);
-      border-radius: var(--radius-field);
+      padding: 12px;
+      border-radius: var(--radius-liste);
       background: var(--bg);
-      box-shadow: 0 22px 48px rgba(0,0,0,.38);
+      box-shadow: inset 0 0 0 var(--kontur) var(--purple), 0 22px 48px rgba(0,0,0,.38);
       max-height: 264px;
       overflow-y: auto;
       overscroll-behavior: contain;
@@ -331,10 +331,10 @@
 
     .select-option {
       font-weight: 500;
-      font-size: 27px;
+      font-size: 24px;
       color: var(--purple);
-      line-height: 1;
-      padding: 14px 18px;
+      line-height: 1.5;
+      padding: 6px 18px;
       border-radius: var(--radius-round);
       cursor: pointer;
       transition: background .14s ease, color .14s ease;
@@ -350,16 +350,16 @@
 
     /* ── Results ─────────────────────────────────────── */
     .results-panel {
-      border: 3px solid var(--border);
-      border-radius: var(--radius-field);
+      box-shadow: inset 0 0 0 var(--kontur) var(--border);
+      border-radius: var(--radius-panel);
       flex: 1 1 auto;
-      padding: clamp(18px, 2vw, 30px) clamp(24px, 2.6vw, 40px);
+      padding: 24px;
       min-height: 200px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      gap: clamp(18px, 2vw, 30px);
+      gap: 16px;
     }
 
     .results-panel.empty {
@@ -373,7 +373,7 @@
       opacity: .5;
       text-align: left;
       max-width: 30ch;
-      line-height: 1.3;
+      line-height: 1.5;
       margin: 0;
     }
     .results-empty.results-error-text {
@@ -386,7 +386,8 @@
       align-items: center;
       width: 100%;
       gap: 20px;
-      font-size: clamp(20px, 2.2vw, 27px);
+      font-size: 24px;
+      line-height: 1.5;
       font-weight: 500;
     }
 
@@ -430,34 +431,37 @@
 
     .error {
       color: var(--error);
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 500;
       margin: 18px 0 0;
-      line-height: 1.3;
+      line-height: 1.5;
     }
 
     /* ── Reset / Support buttons ─────────────────────── */
     .btn-pill {
       font-family: inherit;
       font-weight: 500;
-      font-size: clamp(22px, 2.3vw, 32px);
+      font-size: 32px;
+      line-height: 1.5;
       color: var(--purple);
       background: transparent;
-      border: 3px solid var(--border);
+      --line: var(--border);
+      border: none;
+      box-shadow: inset 0 0 0 var(--kontur) var(--line);
       border-radius: var(--radius-round);
-      padding: 16px 40px;
+      padding: 12px 40px;
       min-height: 72px;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: background .18s ease, color .18s ease, border-color .18s ease;
+      transition: background .18s ease, color .18s ease, box-shadow .18s ease;
     }
-    .btn-pill:hover { border-color: var(--purple); }
-    .btn-pill:active { background: var(--purple); color: var(--on-acc); border-color: var(--purple); }
+    .btn-pill:hover { --line: var(--purple); }
+    .btn-pill:active { background: var(--purple); color: var(--on-acc); --line: var(--purple); }
 
-    .reset-wrap { margin-top: clamp(34px, 4vw, 48px); }
+    .reset-wrap { margin-top: 48px; }
     .reset-wrap .btn-pill { width: 100%; }
 
     /* ── Footer ──────────────────────────────────────── */
@@ -468,12 +472,13 @@
       justify-content: space-between;
       gap: 28px;
       margin-top: auto;
-      padding-top: clamp(56px, 8vw, 96px);
+      padding-top: 96px;
     }
 
     .impressum { max-width: 1160px; }
     .impressum h2 {
       font-size: 24px;
+      line-height: 1.5;
       font-weight: 500;
       margin: 0 0 14px;
       cursor: pointer;
@@ -504,7 +509,7 @@
     .impressum p {
       font-size: 16px;
       font-weight: 500;
-      line-height: 1.45;
+      line-height: 1.5;
       margin: 0 0 10px;
       opacity: .92;
     }
@@ -513,30 +518,61 @@
     .footer .btn-pill { white-space: nowrap; }
 
     /* ── Mobile (must come last to override base styles) ── */
+    /* Stufe mittel: muss nach allen Grundregeln stehen, sonst ueberschreiben diese sie */
+    @media (max-width: 1024px) {
+      :root { --radius-panel: 24px; }
+      body { padding: 40px; }
+      .page { min-height: calc(100vh - 80px); }
+      h1 { font-size: 72px; }
+      .topbar { gap: 48px; margin-bottom: 56px; }
+      .grid { gap: 48px; }
+      .label { font-size: 32px; margin-bottom: 16px; }
+      .field { margin-bottom: 32px; }
+      .row-2 { margin-bottom: 32px; }
+      .results-panel { padding: 20px; gap: 12px; }
+      :root { --radius-liste: 20px; }
+      .result-line { font-size: 20px; }
+      .btn-pill { font-size: 24px; }
+      .error { font-size: 16px; }
+      .reset-wrap { margin-top: 36px; }
+      .footer { padding-top: 64px; }
+    }
+
+    @media (max-width: 880px) {
+      .grid { grid-template-columns: 1fr; gap: 0; }
+      .output { margin-top: 36px; }
+    }
+
     @media (max-width: 500px) {
-      /* All values scaled to 65% of desktop base, preserving all proportions */
-      body { padding: clamp(18px, 4vw, 42px); }
-      .topbar { flex-direction: column; gap: clamp(23px, 5vw, 33px); margin-bottom: clamp(26px, 6vw, 57px); }
-      h1 { max-width: 100%; font-size: clamp(56px, 15vw, 100px); }
-      .pill { min-height: 47px; height: 47px; display: flex; align-items: center; }
-      .toggle { min-height: 47px; height: 47px; padding: 5px; }
-      .toggle button { font-size: 12px; padding: 0 20px; }
-      .toggles { gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
-      .btn-pill { min-height: 47px; height: 47px; padding: 0 26px; font-size: clamp(14px, 2.3vw, 21px); }
-      .pill input, .pill select { font-size: 18px; padding: 0 20px; height: 100%; }
-      .pill-value { font-size: 18px; padding: 0 42px 0 20px; display: flex; align-items: center; }
-      .pill.has-chevron::after { right: 20px; width: 14px; height: 8px; }
-      .select-option { font-size: 18px; padding: 9px 12px; }
-      .select-panel { padding: 9px; }
-      .label { font-size: 23px; margin-bottom: clamp(21px, 3.6vw, 39px); }
-      .field { margin-bottom: clamp(22px, 4vw, 34px); }
-      .row-2 { gap: 16px; margin-bottom: clamp(22px, 4vw, 34px); }
-      .results-panel { padding: clamp(12px, 2vw, 20px) clamp(16px, 2.6vw, 26px); gap: clamp(12px, 2vw, 20px); }
-      .result-line { font-size: clamp(13px, 2.2vw, 18px); gap: 13px; }
+      /* Stufe klein: Werkzeug soll ohne Scrollen ins Sichtfeld passen */
+      :root { --radius-panel: 16px; --kontur: 2px; --radius-liste: 16px; }
+      body { padding: 16px; }
+      .page { min-height: calc(100vh - 32px); }
+      .topbar { flex-direction: column; gap: 16px; margin-bottom: 24px; }
+      h1 { max-width: 100%; font-size: 48px; }
+      .pill { min-height: 40px; height: 40px; display: flex; align-items: center; }
+      .toggle { min-height: 40px; height: 40px; padding: 4px; }
+      .toggle button { font-size: 16px; padding: 0 16px; }
+      .toggles { gap: 12px; justify-content: flex-start; flex-wrap: wrap; }
+      .btn-pill { min-height: 40px; height: 40px; padding: 0 20px; font-size: 20px; }
+      .pill input, .pill select { font-size: 16px; padding: 0 16px; height: 100%; }
+      .pill-value { font-size: 16px; padding: 0 36px 0 16px; display: flex; align-items: center; }
+      .pill.has-chevron::after { right: 16px; width: 14px; height: 8px; }
+      .select-option { font-size: 16px; padding: 4px 12px; }
+      .select-panel { padding: 8px; }
+      .label { font-size: 20px; margin-bottom: 8px; }
+      .field { margin-bottom: 16px; }
+      .output { margin-top: 16px; }
+      .row-2 { gap: 12px; margin-bottom: 16px; }
+      .results-panel { padding: 16px; gap: 12px; min-height: 96px; }
+      .result-line { font-size: 16px; gap: 12px; }
       .results-empty { font-size: 16px; }
-      .error { font-size: 14px; margin-top: 12px; }
-      .reset-wrap { margin-top: clamp(22px, 4vw, 31px); }
-      .footer { padding-top: clamp(36px, 8vw, 62px); gap: 18px; }
+      .error { font-size: 12px; margin-top: 8px; }
+      .reset-wrap { margin-top: 16px; }
+      .footer { padding-top: 24px; gap: 16px; }
+      .impressum h2 { font-size: 16px; margin-bottom: 8px; }
+      .impressum p { font-size: 12px; margin-bottom: 8px; }
+      .imprint-contact p { padding-bottom: 0.9em; }
     }
   </style>
   <script defer src="https://umami-lyart-three.vercel.app/script.js" data-website-id="50298610-f845-48c4-9a75-a327fc97a6e3"></script>
@@ -563,7 +599,7 @@
       <!-- ── Inputs ── -->
       <section class="inputs">
         <div class="field">
-          <label class="label" for="origScale" data-i18n="sourceScale" style="margin: 0px 0px 24px">Ursprungsmaßstab</label>
+          <label class="label" for="origScale" data-i18n="sourceScale">Ursprungsmaßstab</label>
           <div class="pill has-chevron">
             <select id="origScale">
               <option value="">Auswählen</option>
@@ -577,13 +613,13 @@
 
         <div class="row-2">
           <div class="field">
-            <label class="label" for="measurement" data-i18n="measurement" style="margin: 0px 0px 24px">Maß</label>
+            <label class="label" for="measurement" data-i18n="measurement">Maß</label>
             <div class="pill">
               <input id="measurement" inputmode="decimal" placeholder="z. B. 50,00">
             </div>
           </div>
           <div class="field">
-            <label class="label" for="unit" data-i18n="unit" style="margin: 0px 0px 24px">Einheit</label>
+            <label class="label" for="unit" data-i18n="unit">Einheit</label>
             <div class="pill has-chevron">
               <select id="unit">
                 <option>mm</option><option>cm</option><option>m</option>
@@ -593,7 +629,7 @@
         </div>
 
         <div class="field">
-          <label class="label" for="targetScale" data-i18n="targetScale" style="margin: 0px 0px 24px">Zielmaßstab</label>
+          <label class="label" for="targetScale" data-i18n="targetScale">Zielmaßstab</label>
           <div class="pill has-chevron">
             <select id="targetScale">
               <option value="">Auswählen</option>
@@ -608,9 +644,9 @@
 
       <!-- ── Results ── -->
       <section class="output">
-        <h2 class="label" data-i18n="result" style="margin: 0px 0px 24px">Ergebnis</h2>
+        <h2 class="label" data-i18n="result">Ergebnis</h2>
         <div id="results" class="results-panel empty">
-          <p class="results-empty" style="margin: 0px 0px 24px">Wähle einen Ursprungs- und Zielmaßstab, um die Umrechnung zu sehen.</p>
+          <p class="results-empty">Wähle einen Ursprungs- und Zielmaßstab, um die Umrechnung zu sehen.</p>
         </div>
         <p id="measureError" class="error" style="display:none;">
           Ungültige Eingabe: bitte nur Ziffern und ein Komma verwenden.
