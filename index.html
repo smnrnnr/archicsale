@@ -149,6 +149,7 @@
       margin: 0;
       letter-spacing: -0.01em;
       overflow-wrap: break-word;
+      max-width: 7em;        /* Titel 9,7 em, erste Zeile 6,24 em -> genau zwei Zeilen */
       flex: 1 1 0;
       min-width: 0;
     }
@@ -615,7 +616,7 @@
       body { padding: 16px; }
       .page { min-height: calc(100vh - 32px); }
       .topbar { flex-direction: column; gap: 36px; margin-bottom: 36px; }
-      h1 { max-width: 100%; --groesse: var(--v-xl); --korrektur: var(--k-xl); }
+      h1 { --groesse: var(--v-xl); --korrektur: var(--k-xl); }
       .pill { min-height: 36px; height: 36px; display: flex; align-items: center; }
       .toggle { min-height: 36px; height: 36px; padding: 4px; }
       .toggle button { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 16px; }
@@ -640,6 +641,12 @@
       .impressum p { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 18px; }
       .leerzeile { height: 18px; }
       .imprint-contact p { padding-bottom: 18px; }
+    }
+
+    /* Sehr schmal: Versalhoehe 36 laesst "How to Scale" nicht in eine Zeile.
+       24 passt, Zeilenabstand 36 = zwei Rasterschritte. */
+    @media (max-width: 360px) {
+      :root { --v-xl: 24px; --k-xl: 12px; }
     }
   </style>
   <script defer src="https://umami-lyart-three.vercel.app/script.js" data-website-id="50298610-f845-48c4-9a75-a327fc97a6e3"></script>
