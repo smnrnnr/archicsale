@@ -57,7 +57,7 @@
       --radius-field: 36px;               /* Pillen: halbe Hoehe -> Stadionform */
       --radius-panel: 36px;               /* Flaechen: schrumpft mit den Stufen */
       --versal: 0.7;                      /* Versalanteil der Schrift, einmal */
-      --v-xl: 64px;                       /* h1                      4:1 */
+      --v-xl: 80px;                       /* h1   5:1, Zeilenabstand 120 = 5 Rasterzeilen */
       --v-l:  24px;                       /* Ueberschriften          3:2 */
       --v-m:  20px;                       /* Button                  5:4 */
       --v-s:  16px;                       /* Grundmass: Felder, Ergebnis */
@@ -126,7 +126,7 @@
       display: flex;
       align-items: flex-start;
       gap: 104px;
-      margin-bottom: 88px;
+      margin-bottom: 96px;
     }
 
     h1 {
@@ -393,7 +393,7 @@
     }
 
     .results-empty {
-      --groesse: var(--v-s);
+      --groesse: var(--v-xs);
       font-weight: 500;
       opacity: .5;
       text-align: left;
@@ -496,14 +496,14 @@
       justify-content: space-between;
       gap: 28px;
       margin-top: auto;
-      padding-top: 96px;
+      padding-top: 104px;   /* abgeleitet: bringt den Impressum-Titel aufs Raster */
     }
 
     .impressum { max-width: 1160px; }
     .impressum h2 {
       --groesse: var(--v-s);
       font-weight: 500;
-      margin: 0 0 14px;
+      margin: 0 0 12px;
       cursor: pointer;
       display: block;
       user-select: none;
