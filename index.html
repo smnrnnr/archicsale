@@ -218,6 +218,9 @@
       gap: 96px;
       align-items: stretch;
     }
+    /* Grid-Elemente haben min-width: auto: ohne das Zuruecksetzen sprengt
+       die laengste Ergebniszeile die Spur und damit die ganze Seite. */
+    .grid > * { min-width: 0; }
 
     .label {
       display: block;
@@ -235,7 +238,10 @@
     .output {
       display: flex;
       flex-direction: column;
+      container-type: inline-size;
+      container-name: ergebnis;
     }
+
 
     /* ── Pills (input / select) ──────────────────────── */
     .pill {
@@ -416,10 +422,13 @@
        per negativem Aussenabstand zurueckgeben. */
     .result-line .r-label,
     .result-line .value { padding: 0 6px; margin: 0 -6px; }
-    .result-line .r-label { flex: 0 0 auto; }
+    .result-line .r-label { flex: 0 1 auto; min-width: 0; }
 
     .result-line .value {
-      flex: 1;
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
       text-align: right;
       white-space: nowrap;      /* Zahl und Einheit bleiben zusammen */
       font-variant-numeric: tabular-nums;
@@ -428,6 +437,42 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    /* Schmale Spalte: Label oben, Wert mit Kopierzeichen darunter. Massgeblich
+       ist die Spaltenbreite, nicht die Fensterbreite - bei zwei Spalten wird
+       es schon weit vor den Mobilbreiten eng. Innen der Durchschuss,
+       aussen der Panel-Abstand. */
+    @container ergebnis (max-width: 560px) {
+      .result-line {
+        flex-wrap: wrap;
+        /* sonst streckt align-content die beiden Zeilen auseinander */
+        align-content: flex-start;
+        align-items: center;
+        /* Durchschuss = Zeilenabstand - Versalhoehe = Groesse / 2,
+           also 8 im grossen und 6 im kleinen Raster. */
+        row-gap: calc(var(--groesse) / 2);
+        column-gap: 12px;
+        min-height: 0;
+      }
+      .result-line .r-label {
+        /* Volle Zeile, damit der Wert umbricht: darf nicht schrumpfen, und
+           die 2 x -6px Aussenabstand der Auswahl muessen aufgerechnet
+           werden, sonst bleibt rechts eine Luecke. */
+        flex: 0 0 calc(100% + 12px);
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
+      /* Basis 0: der Wert nimmt den Rest der Zeile und kuerzt mit
+         Auslassungspunkten, statt das Kopierzeichen umzubrechen. */
+      .result-line .value { flex: 1 1 0; text-align: left; }
+      /* Das Kopierzeichen (20) ist hoeher als die Versalhoehe und wuerde die
+         zweite Zeile tiefer setzen; so bleibt der Abstand der Durchschuss. */
+      .result-line .copy-btn {
+        align-self: center;
+        margin-block: calc((var(--groesse) - 20px) / 2);
+      }
     }
 
     /* parentheticals — (50%), (1:1) — in the bright lila tone, with the
@@ -599,7 +644,8 @@
       .results-panel { padding: 18px 24px; gap: 12px; min-height: 90px; }
       .results-empty { padding-top: 6px; }
       .results-panel:not(.empty) { min-height: 144px; }
-      .result-line { --groesse: var(--v-s); gap: 12px; min-height: 24px; }
+      /* row-gap bleibt der Container-Regel ueberlassen (Durchschuss) */
+      .result-line { --groesse: var(--v-s); column-gap: 12px; min-height: 24px; }
       .results-empty { --groesse: var(--v-xs); }
       .error { --groesse: var(--v-xs); margin-top: 8px; }
       .reset-wrap { margin-top: 18px; }
