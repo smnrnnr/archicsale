@@ -216,15 +216,16 @@
     }
     body.raster-an #raster { display: block; }
     #raster i { position: absolute; left: 0; right: 0; height: 1px; display: block; }
-    #raster i.g1 { background: color-mix(in oklab, var(--purple) 60%, transparent); }
-    #raster i.g2 { background: color-mix(in oklab, var(--purple) 26%, transparent); display: none; }
-    #raster i.g4 { background: color-mix(in oklab, var(--purple) 14%, transparent); display: none; }
+    #raster i.g1 { background: color-mix(in oklab, var(--purple) 85%, transparent); height: 2px; }
+    #raster i.g2 { background: color-mix(in oklab, var(--purple) 20%, transparent); display: none; }
+    #raster i.g4 { background: color-mix(in oklab, var(--purple) 10%, transparent); display: none; }
     body.fein-an #raster i.g2, body.fein-an #raster i.g4 { display: block; }
     #raster b { position: absolute; top: 0; bottom: 0; width: 1px; display: none;
       background: color-mix(in oklab, var(--purple) 26%, transparent); }
     body.senk-an #raster b { display: block; }
     #raster u { position: absolute; left: 0; right: 0; height: 1px;
-      background: #E24B4A; display: none; }
+      background: #1D9E75; display: none; }
+    #raster u.ab { background: #E24B4A; height: 2px; }
     body.grund-an #raster u { display: block; }
     #raster s { position: fixed; left: 12px; bottom: 12px; display: block;
       font: 500 12px/1.4 "Space Grotesk", sans-serif; color: var(--purple);
@@ -423,7 +424,6 @@
       opacity: .5;
       text-align: left;
       max-width: 30ch;
-      line-height: 1.5;
       margin: 0;
     }
     .results-empty.results-error-text {
@@ -1177,13 +1177,15 @@
           alle++; if (rest < 0.6 || rest > SCHRITT - 0.6) treffer++;
           const m = document.createElement('u');
           m.style.top = y + 'px';
-          if (i) m.style.opacity = '.55';
+          if (!(rest < 0.6 || rest > SCHRITT - 0.6)) m.className = 'ab';
+          if (i) m.style.opacity = '.7';
           el.appendChild(m);
         }
       }
       const s = document.createElement('s');
       s.textContent = 'Raster ' + SCHRITT + ' \u00b7 fein ' + fein
         + '\n' + treffer + ' von ' + alle + ' Grundlinien auf dem Raster'
+        + '\ngruen = auf dem Raster, rot = daneben'
         + '\nr Raster \u00b7 f fein \u00b7 g Grundlinien \u00b7 s senkrecht';
       el.appendChild(s);
       document.body.appendChild(el);
