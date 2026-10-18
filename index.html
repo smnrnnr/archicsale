@@ -526,7 +526,8 @@
       flex-wrap: wrap;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 24px;
+      column-gap: 24px;
+      row-gap: 48px;        /* zwei Rasterschritte zum Impressum */
       margin-top: auto;
       padding-top: 96px;
     }
@@ -629,7 +630,7 @@
       .results-empty { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-top: 8px; }
       .reset-wrap { margin-top: 18px; }
-      .footer { padding-top: 36px; gap: 18px; }
+      .footer { padding-top: 36px; column-gap: 18px; row-gap: 36px; }
       .impressum h2 { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 18px; }
       .impressum p { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 18px; }
       .leerzeile { height: 18px; }
