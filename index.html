@@ -216,7 +216,7 @@
     }
     body.raster-an #raster { display: block; }
     #raster i { position: absolute; left: 0; right: 0; height: 1px; display: block; }
-    #raster i.g1 { background: color-mix(in oklab, var(--purple) 85%, transparent); height: 2px; }
+    #raster i.g1 { background: color-mix(in oklab, var(--purple) 70%, transparent); }
     #raster i.g2 { background: color-mix(in oklab, var(--purple) 20%, transparent); display: none; }
     #raster i.g4 { background: color-mix(in oklab, var(--purple) 10%, transparent); display: none; }
     body.fein-an #raster i.g2, body.fein-an #raster i.g4 { display: block; }
@@ -225,7 +225,7 @@
     body.senk-an #raster b { display: block; }
     #raster u { position: absolute; left: 0; right: 0; height: 1px;
       background: #1D9E75; display: none; }
-    #raster u.ab { background: #E24B4A; height: 2px; }
+    #raster u.ab { background: #E24B4A; }
     body.grund-an #raster u { display: block; }
     #raster s { position: fixed; left: 12px; bottom: 12px; display: block;
       font: 500 12px/1.4 "Space Grotesk", sans-serif; color: var(--purple);
@@ -711,7 +711,7 @@
         <div class="imprint-contact" id="imprintContact" aria-hidden="true">
           <p data-i18n-html="imprintContact">Simon Renner, Lenaustraße 14, 70193 Stuttgart<br>E-Mail: hello@alltag.studio</p>
         </div>
-        <p data-i18n-html="imprintBody">Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:12px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.</p>
+        <p data-i18n-html="imprintBody">Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:24px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.</p>
       </div>
       <a class="btn-pill" href="https://ko-fi.com/alltagstudio" target="_blank" rel="noopener" data-i18n="support">Unterstützen</a>
     </footer>
@@ -774,7 +774,7 @@
         reset: 'Zurücksetzen', support: 'Unterstützen', copy: 'Kopieren',
         imprint: 'Impressum',
         imprintContact: 'Simon Renner, Lenaustraße 14, 70193 Stuttgart<br>E-Mail: hello@alltag.studio',
-        imprintBody: 'Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:12px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.',
+        imprintBody: 'Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:24px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.',
       },
       en: {
         metric: 'metric', imperial: 'imperial', de: 'German', en: 'English',
@@ -788,7 +788,7 @@
         reset: 'Reset', support: 'Support', copy: 'Copy',
         imprint: 'Imprint',
         imprintContact: 'Simon Renner, Lenaustraße 14, 70193 Stuttgart, Germany<br>Email: hello@alltag.studio',
-        imprintBody: 'This website uses no cookies and stores no personal data. Anonymous page view statistics are collected via Umami Analytics, a privacy-friendly tool with no personal tracking.<br><span style="display:block;height:12px"></span>If the Scale Converter helps you, I would be happy about a contribution to support my projects.',
+        imprintBody: 'This website uses no cookies and stores no personal data. Anonymous page view statistics are collected via Umami Analytics, a privacy-friendly tool with no personal tracking.<br><span style="display:block;height:24px"></span>If the Scale Converter helps you, I would be happy about a contribution to support my projects.',
       },
     };
     const t = (k) => I18N[state.lang][k];
@@ -1178,7 +1178,6 @@
           const m = document.createElement('u');
           m.style.top = y + 'px';
           if (!(rest < 0.6 || rest > SCHRITT - 0.6)) m.className = 'ab';
-          if (i) m.style.opacity = '.7';
           el.appendChild(m);
         }
       }
