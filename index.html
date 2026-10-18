@@ -57,12 +57,12 @@
       --radius-field: 36px;               /* Pillen: halbe Hoehe -> Stadionform */
       --radius-panel: 36px;               /* Flaechen: schrumpft mit den Stufen */
       --versal: 0.7;                      /* Versalanteil der Schrift, einmal */
-      --k-xl: 16px;                       /* Korrektur oben je Stil, Raster 24 */
+      --k-xl:  0px;                       /* Korrektur oben je Stil, Raster 24 */
       --k-l:   0px;
       --k-s:   8px;
       --k-xs: 12px;
       --raster: 24px;                     /* = Grundmass 16 x 3/2 */
-      --v-xl: 80px;                       /* h1   5:1, Zeilenabstand 120 = 5 Rasterzeilen */
+      --v-xl: 96px;                       /* h1   5:1, Zeilenabstand 120 = 5 Rasterzeilen */
       --v-l:  24px;                       /* Ueberschriften          3:2 */
 
       --v-s:  16px;                       /* Grundmass: Felder, Ergebnis */
@@ -499,13 +499,12 @@
       border: none;
       box-shadow: inset 0 0 0 var(--kontur) var(--line);
       border-radius: var(--radius-round);
-      padding: 12px 40px;
+      padding: 24px 40px;
       min-height: 72px;
       cursor: pointer;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
+      text-align: center;
       transition: background .18s ease, color .18s ease, box-shadow .18s ease;
     }
     .btn-pill:hover { --line: var(--purple); }
@@ -520,7 +519,7 @@
       flex-wrap: wrap;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 28px;
+      gap: 24px;
       margin-top: auto;
       padding-top: 96px;
     }
@@ -561,6 +560,7 @@
       opacity: .92;
     }
     .impressum p:last-child { margin-bottom: 0; }
+    .leerzeile { display: block; height: 24px; }   /* ein Rasterschritt */
 
     .footer .btn-pill { white-space: nowrap; }
 
@@ -624,6 +624,7 @@
       .footer { padding-top: 36px; gap: 18px; }
       .impressum h2 { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 18px; }
       .impressum p { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 18px; }
+      .leerzeile { height: 18px; }
       .imprint-contact p { padding-bottom: 18px; }
     }
   </style>
@@ -717,7 +718,7 @@
         <div class="imprint-contact" id="imprintContact" aria-hidden="true">
           <p data-i18n-html="imprintContact">Simon Renner, Lenaustraße 14, 70193 Stuttgart<br>E-Mail: hello@alltag.studio</p>
         </div>
-        <p data-i18n-html="imprintBody">Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:24px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.</p>
+        <p data-i18n-html="imprintBody">Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span class="leerzeile"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.</p>
       </div>
       <a class="btn-pill" href="https://ko-fi.com/alltagstudio" target="_blank" rel="noopener" data-i18n="support">Unterstützen</a>
     </footer>
@@ -780,7 +781,7 @@
         reset: 'Zurücksetzen', support: 'Unterstützen', copy: 'Kopieren',
         imprint: 'Impressum',
         imprintContact: 'Simon Renner, Lenaustraße 14, 70193 Stuttgart<br>E-Mail: hello@alltag.studio',
-        imprintBody: 'Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:24px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.',
+        imprintBody: 'Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span class="leerzeile"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.',
       },
       en: {
         metric: 'metric', imperial: 'imperial', de: 'German', en: 'English',
@@ -794,7 +795,7 @@
         reset: 'Reset', support: 'Support', copy: 'Copy',
         imprint: 'Imprint',
         imprintContact: 'Simon Renner, Lenaustraße 14, 70193 Stuttgart, Germany<br>Email: hello@alltag.studio',
-        imprintBody: 'This website uses no cookies and stores no personal data. Anonymous page view statistics are collected via Umami Analytics, a privacy-friendly tool with no personal tracking.<br><span style="display:block;height:24px"></span>If the Scale Converter helps you, I would be happy about a contribution to support my projects.',
+        imprintBody: 'This website uses no cookies and stores no personal data. Anonymous page view statistics are collected via Umami Analytics, a privacy-friendly tool with no personal tracking.<br><span class="leerzeile"></span>If the Scale Converter helps you, I would be happy about a contribution to support my projects.',
       },
     };
     const t = (k) => I18N[state.lang][k];
