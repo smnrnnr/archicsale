@@ -57,13 +57,17 @@
       --radius-field: 36px;               /* Pillen: halbe Hoehe -> Stadionform */
       --radius-panel: 36px;               /* Flaechen: schrumpft mit den Stufen */
       --versal: 0.7;                      /* Versalanteil der Schrift, einmal */
+      --k-xl: 16px;                       /* Korrektur oben je Stil, Raster 24 */
+      --k-l:   0px;
+      --k-s:   8px;
+      --k-xs: 12px;
       --v-xl: 80px;                       /* h1   5:1, Zeilenabstand 120 = 5 Rasterzeilen */
       --v-l:  24px;                       /* Ueberschriften          3:2 */
-      --v-m:  20px;                       /* Button                  5:4 */
+
       --v-s:  16px;                       /* Grundmass: Felder, Ergebnis */
       --v-xs: 12px;                       /* Toggle, Impressum       4:3 */
       --v-xxs: 8px;                       /* Impressum mobil         2:1 */
-      --kontur: 3px;                      /* Strichstaerke: schrumpft mit den Stufen */
+      --kontur: 4px;                      /* Strichstaerke: schrumpft mit den Stufen */
       --radius-liste: 24px;               /* Auswahlliste: flacher als die Flaechen */
       --radius-round: 999px;              /* toggles / buttons */
 
@@ -97,6 +101,12 @@
       line-height: calc(var(--groesse) * 3 / 2);
       text-box: trim-both cap alphabetic;
     }
+    /* Blocktext traegt die Korrektur oben; zentrierte Inhalte nicht --
+       dort wuerde sie nur die Box aufblaehen statt die Grundlinie zu setzen. */
+    h1, .label, .impressum h2, .impressum p, .results-empty {
+      padding-top: var(--korrektur, 0px);
+    }
+
     /* Fliesstext: Faktor 2/1 statt 3/2 - in Ruecksprache */
     .results-empty, .error, .impressum p { line-height: calc(var(--groesse) * 2); }
 
@@ -131,7 +141,7 @@
 
     h1 {
       font-weight: 500;
-      --groesse: var(--v-xl);
+      --groesse: var(--v-xl); --korrektur: var(--k-xl);
       margin: 0;
       letter-spacing: -0.01em;
       overflow-wrap: break-word;
@@ -165,7 +175,7 @@
     .toggle button {
       font-family: inherit;
       font-weight: 700;
-      --groesse: var(--v-xs);
+      --groesse: var(--v-xs); --korrektur: var(--k-xs);
       letter-spacing: 0.01em;
       color: var(--purple);
       background: transparent;
@@ -233,7 +243,7 @@
     .label {
       display: block;
       font-weight: 500;
-      --groesse: var(--v-l);
+      --groesse: var(--v-l); --korrektur: var(--k-l);
       margin: 0 0 24px;
     }
 
@@ -268,7 +278,7 @@
     .pill select {
       font-family: inherit;
       font-weight: 500;
-      --groesse: var(--v-s);
+      --groesse: var(--v-s); --korrektur: var(--k-s);
       color: var(--purple);
       background: transparent;
       border: none;
@@ -279,7 +289,7 @@
 
     /* Korrektur des Stils: mittig zentriert liegt die Grundlinie 2 px neben
        dem Raster 6. Verschiebung ohne Einfluss auf das Layout. */
-    .pill input, .pill select, .pill-value { position: relative; top: -2px; }
+    .pill input, .pill select, .pill-value { position: relative; top: 4px; }
 
     .pill input::placeholder { color: var(--purple); opacity: .55; }
 
@@ -328,7 +338,7 @@
 
     .pill-value {
       font-weight: 500;
-      --groesse: var(--v-s);
+      --groesse: var(--v-s); --korrektur: var(--k-s);
       color: var(--purple);
       width: 100%;
       padding: 12px 64px 12px 30px;
@@ -361,7 +371,7 @@
 
     .select-option {
       font-weight: 500;
-      --groesse: var(--v-s);
+      --groesse: var(--v-s); --korrektur: var(--k-s);
       color: var(--purple);
       padding: 6px 18px;
       border-radius: var(--radius-round);
@@ -397,7 +407,7 @@
     }
 
     .results-empty {
-      --groesse: var(--v-xs);
+      --groesse: var(--v-xs); --korrektur: var(--k-xs);
       font-weight: 500;
       opacity: .5;
       text-align: left;
@@ -417,7 +427,7 @@
       align-items: center;
       width: 100%;
       gap: 20px;
-      --groesse: var(--v-s);
+      --groesse: var(--v-s); --korrektur: var(--k-s);
       font-weight: 500;
     }
 
@@ -461,7 +471,7 @@
 
     .error {
       color: var(--error);
-      --groesse: var(--v-xs);
+      --groesse: var(--v-xs); --korrektur: var(--k-xs);
       font-weight: 500;
       margin: 18px 0 0;
     }
@@ -470,7 +480,7 @@
     .btn-pill {
       font-family: inherit;
       font-weight: 500;
-      --groesse: var(--v-m);
+      --groesse: var(--v-l); --korrektur: var(--k-l);
       color: var(--purple);
       background: transparent;
       --line: var(--border);
@@ -500,14 +510,14 @@
       justify-content: space-between;
       gap: 28px;
       margin-top: auto;
-      padding-top: 104px;   /* abgeleitet: bringt den Impressum-Titel aufs Raster */
+      padding-top: 96px;
     }
 
     .impressum { max-width: 1160px; }
     .impressum h2 {
-      --groesse: var(--v-s);
+      --groesse: var(--v-s); --korrektur: var(--k-s);
       font-weight: 500;
-      margin: 0 0 12px;
+      margin: 0 0 24px;
       cursor: pointer;
       display: block;
       user-select: none;
@@ -533,7 +543,7 @@
     .imprint-contact.open { max-height: 220px; }
     .imprint-contact p { padding-bottom: 16px; margin-bottom: 0; }
     .impressum p {
-      --groesse: var(--v-xs);
+      --groesse: var(--v-xs); --korrektur: var(--k-xs);
       font-weight: 500;
       margin: 0 0 10px;
       opacity: .92;
@@ -548,17 +558,17 @@
       :root { --radius-panel: 24px; }
       body { padding: 40px; }
       .page { min-height: calc(100vh - 80px); }
-      h1 { --groesse: 48px; }
+      h1 { --groesse: 48px; --korrektur: var(--k-xl); }
       .topbar { gap: 48px; margin-bottom: 56px; }
       .grid { gap: 48px; }
-      .label { --groesse: var(--v-m); margin-bottom: 16px; }
+      .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 16px; }
       .field { margin-bottom: 32px; }
       .row-2 { margin-bottom: 32px; }
       .results-panel { padding: 20px; gap: 12px; }
       :root { --radius-liste: 20px; }
-      .result-line { --groesse: var(--v-s); }
-      .btn-pill { --groesse: var(--v-s); }
-      .error { --groesse: var(--v-xs); }
+      .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); }
+      .btn-pill { --groesse: var(--v-s); --korrektur: var(--k-s); }
+      .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
       .reset-wrap { margin-top: 36px; }
       .footer { padding-top: 64px; }
     }
@@ -574,29 +584,29 @@
       body { padding: 16px; }
       .page { min-height: calc(100vh - 32px); }
       .topbar { flex-direction: column; gap: 16px; margin-bottom: 24px; }
-      h1 { max-width: 100%; --groesse: 32px; }
+      h1 { max-width: 100%; --groesse: 32px; --korrektur: var(--k-xl); }
       .pill { min-height: 40px; height: 40px; display: flex; align-items: center; }
       .toggle { min-height: 40px; height: 40px; padding: 4px; }
-      .toggle button { --groesse: var(--v-xs); padding: 0 16px; }
+      .toggle button { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 16px; }
       .toggles { gap: 12px; justify-content: flex-start; flex-wrap: wrap; }
-      .btn-pill { min-height: 40px; height: 40px; padding: 0 20px; --groesse: var(--v-xs); }
-      .pill input, .pill select { --groesse: var(--v-xs); padding: 0 16px; height: 100%; }
-      .pill-value { --groesse: var(--v-xs); padding: 0 36px 0 16px; display: flex; align-items: center; }
+      .btn-pill { min-height: 40px; height: 40px; padding: 0 20px; --groesse: var(--v-xs); --korrektur: var(--k-xs); }
+      .pill input, .pill select { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 16px; height: 100%; }
+      .pill-value { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 36px 0 16px; display: flex; align-items: center; }
       .pill.has-chevron::after { right: 16px; width: 14px; height: 8px; }
-      .select-option { --groesse: var(--v-xs); padding: 4px 12px; }
+      .select-option { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 4px 12px; }
       .select-panel { padding: 8px; }
-      .label { --groesse: var(--v-s); margin-bottom: 8px; }
+      .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 8px; }
       .field { margin-bottom: 16px; }
       .output { margin-top: 16px; }
       .row-2 { gap: 12px; margin-bottom: 16px; }
       .results-panel { padding: 16px; gap: 12px; min-height: 96px; }
-      .result-line { --groesse: var(--v-xs); gap: 12px; }
-      .results-empty { --groesse: var(--v-xs); }
-      .error { --groesse: var(--v-xs); margin-top: 8px; }
+      .result-line { --groesse: var(--v-xs); --korrektur: var(--k-xs); gap: 12px; }
+      .results-empty { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
+      .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-top: 8px; }
       .reset-wrap { margin-top: 16px; }
       .footer { padding-top: 24px; gap: 16px; }
-      .impressum h2 { --groesse: var(--v-xs); margin-bottom: 8px; }
-      .impressum p { --groesse: var(--v-xxs); margin-bottom: 8px; }
+      .impressum h2 { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 8px; }
+      .impressum p { --groesse: var(--v-xxs); --korrektur: var(--k-xs); margin-bottom: 8px; }
       .imprint-contact p { padding-bottom: 12px; }
     }
   </style>
@@ -1101,7 +1111,7 @@
   </script>
   <script>
   (function(){
-    const SCHRITT = 6;             // Rasterschritt aus den Zeilenabstaenden
+    const SCHRITT = 24;            // Raster = Zeilenabstand des Grundmasses (16 x 3/2)
     let el = null;
     function bauen(){
       el?.remove();
