@@ -392,6 +392,9 @@
       text-align: left;
       max-width: 30ch;
       margin: 0;
+      /* Halber Durchschuss der Ergebniszeile, damit leer und gefuellt
+         gleich hoch einruecken: 24 Polster + 8 = 32. */
+      padding-top: 8px;
     }
     .results-empty.results-error-text {
       color: var(--purple);
@@ -594,6 +597,7 @@
       .output { margin-top: 18px; }
       .row-2 { gap: 12px; margin-bottom: 18px; }
       .results-panel { padding: 18px 24px; gap: 12px; min-height: 90px; }
+      .results-empty { padding-top: 6px; }
       .results-panel:not(.empty) { min-height: 144px; }
       .result-line { --groesse: var(--v-s); gap: 12px; min-height: 24px; }
       .results-empty { --groesse: var(--v-xs); }
