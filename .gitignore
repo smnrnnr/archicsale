@@ -1,0 +1,5 @@
+# Persoenliche Berechtigungen von Claude Code, rechnerspezifisch
+.claude/settings.local.json
+
+# macOS
+.DS_Store
