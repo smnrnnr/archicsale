@@ -57,10 +57,6 @@
       --radius-field: 36px;               /* Pillen: halbe Hoehe -> Stadionform */
       --radius-panel: 36px;               /* Flaechen: schrumpft mit den Stufen */
       --versal: 0.7;                      /* Versalanteil der Schrift, einmal */
-      --k-xl:  0px;                       /* Korrektur oben je Stil, Raster 24 */
-      --k-l:   0px;
-      --k-s:   8px;
-      --k-xs: 12px;
       --raster: 24px;                     /* = Grundmass 16 x 3/2 */
       --v-xl: 96px;                       /* h1   5:1, Zeilenabstand 120 = 5 Rasterzeilen */
       --v-l:  24px;                       /* Ueberschriften          3:2 */
@@ -102,14 +98,6 @@
       line-height: calc(var(--groesse) * 3 / 2);
       text-box: trim-both cap alphabetic;
     }
-    /* Blocktext traegt die Korrektur oben; zentrierte Inhalte nicht --
-       dort wuerde sie nur die Box aufblaehen statt die Grundlinie zu setzen. */
-    h1, .label, .impressum h2, .impressum p, .results-empty {
-      padding-top: var(--korrektur, 0px);
-    }
-
-    /* Fliesstext: Faktor 2/1 statt 3/2 - in Ruecksprache */
-    .results-empty, .error, .impressum p { line-height: calc(var(--groesse) * 2); }
 
     ::selection { background: var(--purple); color: var(--on-acc); }
     ::-moz-selection { background: var(--purple); color: var(--on-acc); }
@@ -139,13 +127,13 @@
     .topbar {
       display: flex;
       align-items: flex-start;
-      gap: 104px;
+      gap: 96px;
       margin-bottom: 96px;
     }
 
     h1 {
       font-weight: 500;
-      --groesse: var(--v-xl); --korrektur: var(--k-xl);
+      --groesse: var(--v-xl);
       margin: 0;
       letter-spacing: -0.01em;
       overflow-wrap: break-word;
@@ -180,13 +168,13 @@
     .toggle button {
       font-family: inherit;
       font-weight: 700;
-      --groesse: var(--v-xs); --korrektur: var(--k-xs);
+      --groesse: var(--v-xs);
       letter-spacing: 0.01em;
       color: var(--purple);
       background: transparent;
       border: none;
       border-radius: var(--radius-round);
-      padding: 11px 30px;
+      padding: 11px 32px;
       cursor: pointer;
       flex: 1 1 0;
       display: grid;
@@ -227,14 +215,14 @@
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 104px;
+      gap: 96px;
       align-items: stretch;
     }
 
     .label {
       display: block;
       font-weight: 500;
-      --groesse: var(--v-l); --korrektur: var(--k-l);
+      --groesse: var(--v-l);
       margin: 0 0 24px;
     }
 
@@ -269,13 +257,13 @@
     .pill select {
       font-family: inherit;
       font-weight: 500;
-      --groesse: var(--v-s); --korrektur: var(--k-s);
+      --groesse: var(--v-s);
       color: var(--purple);
       background: transparent;
       border: none;
       outline: none;
       width: 100%;
-      padding: 12px 30px;
+      padding: 12px 32px;
     }
 
     /* Korrektur des Stils: mittig zentriert liegt die Grundlinie 2 px neben
@@ -300,7 +288,7 @@
     .pill.has-chevron::after {
       content: "";
       position: absolute;
-      right: 30px;
+      right: 32px;
       top: 50%;
       width: 22px;
       height: 13px;
@@ -329,10 +317,10 @@
 
     .pill-value {
       font-weight: 500;
-      --groesse: var(--v-s); --korrektur: var(--k-s);
+      --groesse: var(--v-s);
       color: var(--purple);
       width: 100%;
-      padding: 12px 64px 12px 30px;
+      padding: 12px 64px 12px 32px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -362,7 +350,7 @@
 
     .select-option {
       font-weight: 500;
-      --groesse: var(--v-s); --korrektur: var(--k-s);
+      --groesse: var(--v-s);
       color: var(--purple);
       padding: 6px 18px;
       border-radius: calc(var(--radius-liste) / 3);   /* abgeleitet vom Feld, nicht vollrund */
@@ -398,7 +386,7 @@
     }
 
     .results-empty {
-      --groesse: var(--v-xs); --korrektur: var(--k-xs);
+      --groesse: var(--v-xs);
       font-weight: 500;
       opacity: .5;
       text-align: left;
@@ -417,7 +405,7 @@
       align-items: center;
       width: 100%;
       gap: 20px;
-      --groesse: var(--v-s); --korrektur: var(--k-s);
+      --groesse: var(--v-s);
       font-weight: 500;
     }
 
@@ -471,7 +459,7 @@
 
     .error {
       color: var(--error);
-      --groesse: var(--v-xs); --korrektur: var(--k-xs);
+      --groesse: var(--v-xs);
       font-weight: 500;
       margin: 18px 0 0;
     }
@@ -480,7 +468,7 @@
     .btn-pill {
       font-family: inherit;
       font-weight: 500;
-      --groesse: var(--v-l); --korrektur: var(--k-l);
+      --groesse: var(--v-l);
       color: var(--purple);
       background: transparent;
       --line: var(--border);
@@ -514,7 +502,7 @@
 
     .impressum { max-width: 1160px; }
     .impressum h2 {
-      --groesse: var(--v-s); --korrektur: var(--k-s);
+      --groesse: var(--v-s);
       font-weight: 500;
       margin: 0 0 24px;
       cursor: pointer;
@@ -543,7 +531,7 @@
     .imprint-contact.open { max-height: 220px; }
     .imprint-contact p { padding-bottom: 16px; margin-bottom: 0; }
     .impressum p {
-      --groesse: var(--v-xs); --korrektur: var(--k-xs);
+      --groesse: var(--v-xs);
       font-weight: 500;
       margin: 0 0 10px;
       opacity: .92;
@@ -562,14 +550,14 @@
       .page { min-height: calc(100vh - 80px); }
       .topbar { gap: 48px; margin-bottom: 48px; }
       .grid { gap: 48px; }
-      .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 24px; }
+      .label { --groesse: var(--v-s); margin-bottom: 24px; }
       .field { margin-bottom: 24px; }
       .row-2 { margin-bottom: 24px; }
       .results-panel { padding: 24px 32px; gap: 16px; min-height: 120px; }
       .results-panel:not(.empty) { min-height: 192px; }
-      .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); }
-      .btn-pill { --groesse: var(--v-s); --korrektur: var(--k-s); }
-      .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
+      .result-line { --groesse: var(--v-s); }
+      .btn-pill { --groesse: var(--v-s); }
+      .error { --groesse: var(--v-xs); }
       .reset-wrap { margin-top: 24px; }
       .footer { padding-top: 48px; }
     }
@@ -586,35 +574,34 @@
         --radius-panel: 16px; --kontur: 2px; --radius-liste: 16px;
         --raster: 18px;
         --v-xl: 36px; --v-l: 18px; --v-s: 12px; --v-xs: 9px; --v-xxs: 9px;
-        --k-xl:  0px; --k-l:  0px; --k-s:  6px; --k-xs: 9px;
       }
       body { padding: 16px; }
       .page { min-height: calc(100vh - 32px); }
       .topbar { flex-direction: column; gap: 36px; margin-bottom: 36px; }
-      h1 { --groesse: var(--v-xl); --korrektur: var(--k-xl); }
+      h1 { --groesse: var(--v-xl); }
       .pill { min-height: 36px; height: 36px; display: flex; align-items: center; }
       .toggle { min-height: 36px; height: 36px; padding: 4px; }
-      .toggle button { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 16px; }
+      .toggle button { --groesse: var(--v-xs); padding: 0 16px; }
       .toggles { gap: 18px; justify-content: flex-start; flex-wrap: wrap; }
-      .btn-pill { min-height: 36px; padding: 12px 20px; --groesse: var(--v-s); --korrektur: var(--k-s); }
-      .pill input, .pill select { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 0 16px; height: 100%; }
-      .pill-value { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 0 36px 0 16px; display: flex; align-items: center; }
+      .btn-pill { min-height: 36px; padding: 12px 20px; --groesse: var(--v-s); }
+      .pill input, .pill select { --groesse: var(--v-s); padding: 0 16px; height: 100%; }
+      .pill-value { --groesse: var(--v-s); padding: 0 36px 0 16px; display: flex; align-items: center; }
       .pill.has-chevron::after { right: 16px; width: 14px; height: 8px; }
-      .select-option { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 4px 12px; }
+      .select-option { --groesse: var(--v-s); padding: 4px 12px; }
       .select-panel { padding: 8px; max-height: 190px; }
-      .label { --groesse: var(--v-l); --korrektur: var(--k-l); margin-bottom: 18px; }
+      .label { --groesse: var(--v-l); margin-bottom: 18px; }
       .field { margin-bottom: 18px; }
       .output { margin-top: 18px; }
       .row-2 { gap: 12px; margin-bottom: 18px; }
       .results-panel { padding: 18px 24px; gap: 12px; min-height: 90px; }
       .results-panel:not(.empty) { min-height: 144px; }
-      .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); gap: 12px; min-height: 24px; }
-      .results-empty { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
-      .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-top: 8px; }
+      .result-line { --groesse: var(--v-s); gap: 12px; min-height: 24px; }
+      .results-empty { --groesse: var(--v-xs); }
+      .error { --groesse: var(--v-xs); margin-top: 8px; }
       .reset-wrap { margin-top: 18px; }
       .footer { padding-top: 18px; column-gap: 18px; row-gap: 36px; }
-      .impressum h2 { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 18px; }
-      .impressum p { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 18px; }
+      .impressum h2 { --groesse: var(--v-s); margin-bottom: 18px; }
+      .impressum p { --groesse: var(--v-xs); margin-bottom: 18px; }
       .leerzeile { height: 18px; }
       .imprint-contact p { padding-bottom: 18px; }
     }
@@ -622,7 +609,7 @@
     /* Sehr schmal: Versalhoehe 36 laesst "How to Scale" nicht in eine Zeile.
        24 passt, Zeilenabstand 36 = zwei Rasterschritte. */
     @media (max-width: 360px) {
-      :root { --v-xl: 24px; --k-xl: 12px; }
+      :root { --v-xl: 24px; }
     }
   </style>
   <script defer src="https://umami-lyart-three.vercel.app/script.js" data-website-id="50298610-f845-48c4-9a75-a327fc97a6e3"></script>
