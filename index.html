@@ -1156,12 +1156,12 @@
       const hoehe = document.documentElement.scrollHeight;
       const h1 = document.querySelector('h1');
       const null0 = h1 ? grundlinieVon(h1) : 0;      // Nullpunkt: erste Grundlinie, nicht der Rand
-      const fein = SCHRITT / 4;
+      const fein = SCHRITT / 6;   // Unterteilung nach der Engine
       let html = '';
       const start = null0 - Math.ceil(null0 / SCHRITT) * SCHRITT;
       for (let y = start; y < hoehe; y += fein){
         const n = Math.round((y - null0) / fein);
-        const klasse = n % 4 === 0 ? 'g1' : (n % 2 === 0 ? 'g2' : 'g4');
+        const klasse = n % 6 === 0 ? 'g1' : (n % 3 === 0 ? 'g2' : 'g4');
         html += '<i class="' + klasse + '" style="top:' + y + 'px"></i>';
       }
       const rand = parseFloat(getComputedStyle(document.body).paddingLeft) || 0;
