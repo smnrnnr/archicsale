@@ -333,8 +333,8 @@
       pointer-events: none;
       transition: transform .22s ease;
       background: var(--purple);
-      -webkit-mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      -webkit-mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='butt' stroke-linejoin='miter'/%3E%3C/svg%3E");
+      mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='butt' stroke-linejoin='miter'/%3E%3C/svg%3E");
     }
 
     .row-2 {
@@ -446,6 +446,10 @@
       font-weight: 500;
     }
 
+    /* ::selection kennt kein Polster: am Text polstern und den Platz
+       per negativem Aussenabstand zurueckgeben. */
+    .result-line .r-label,
+    .result-line .value { padding: 0 6px; margin: 0 -6px; }
     .result-line .r-label { flex: 0 0 auto; }
 
     .result-line .value {
@@ -465,8 +469,8 @@
     /* copy icon — exact two-square + check artwork (from supplied SVG) */
     .copy-btn {
       flex: 0 0 auto;
-      width: 24px;
-      height: 30px;
+      width: 16px;
+      height: 20px;
       display: block;
       background: none;
       border: none;
@@ -540,11 +544,12 @@
       content: "";
       display: inline-block;
       margin-left: 8px;
+      vertical-align: calc((var(--groesse) - 8px) / 2);   /* mittig zur Versalbox */
       width: 14px;
       height: 8px;
       background: var(--purple);
-      -webkit-mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      -webkit-mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='4' stroke-linecap='butt' stroke-linejoin='miter'/%3E%3C/svg%3E");
+      mask: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 13'%3E%3Cpath d='M1 1l10 10L21 1' fill='none' stroke='black' stroke-width='4' stroke-linecap='butt' stroke-linejoin='miter'/%3E%3C/svg%3E");
       transition: transform .22s ease;
       opacity: .7;
     }
@@ -579,7 +584,7 @@
       .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 24px; }
       .field { margin-bottom: 24px; }
       .row-2 { margin-bottom: 24px; }
-      .results-panel { padding: 24px 32px; gap: 24px; }
+      .results-panel { padding: 24px 32px; gap: 16px; }
       .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); }
       .btn-pill { --groesse: var(--v-s); --korrektur: var(--k-s); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
@@ -619,7 +624,7 @@
       .field { margin-bottom: 18px; }
       .output { margin-top: 18px; }
       .row-2 { gap: 12px; margin-bottom: 18px; }
-      .results-panel { padding: 18px 24px; gap: 18px; min-height: 90px; }
+      .results-panel { padding: 18px 24px; gap: 12px; min-height: 90px; }
       .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); gap: 12px; min-height: 24px; }
       .results-empty { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-top: 8px; }
