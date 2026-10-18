@@ -383,7 +383,8 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      gap: 16px;
+      /* muss ueber dem Innenabstand der gestapelten Zeile (16) liegen */
+      gap: 24px;
     }
 
     .results-panel.empty {
@@ -449,9 +450,8 @@
       .result-line {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
-        /* eine Stufe ueber dem Durchschuss, aber unter dem Abstand
-           zwischen den Ergebnissen (16 / 12) */
-        row-gap: calc(var(--groesse) * 3 / 4);
+        /* Faktor 2/1: Durchschuss = Versalhoehe, also 16 bzw. 12 */
+        row-gap: var(--groesse);
         column-gap: 12px;
         min-height: 0;
       }
@@ -600,7 +600,7 @@
       .label { --groesse: var(--v-s); margin-bottom: 24px; }
       .field { margin-bottom: 24px; }
       .row-2 { margin-bottom: 24px; }
-      .results-panel { padding: 24px 32px; gap: 16px; min-height: 120px; }
+      .results-panel { padding: 24px 32px; gap: 24px; min-height: 120px; }
       .results-panel:not(.empty) { min-height: 192px; }
       .result-line { --groesse: var(--v-s); }
       .btn-pill { --groesse: var(--v-s); }
@@ -640,7 +640,7 @@
       .field { margin-bottom: 18px; }
       .output { margin-top: 18px; }
       .row-2 { gap: 12px; margin-bottom: 18px; }
-      .results-panel { padding: 18px 24px; gap: 12px; min-height: 90px; }
+      .results-panel { padding: 18px 24px; gap: 18px; min-height: 90px; }
       .results-empty { padding-top: 6px; }
       .results-panel:not(.empty) { min-height: 144px; }
       /* row-gap bleibt der Container-Regel ueberlassen (Durchschuss) */
