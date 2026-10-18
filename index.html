@@ -212,32 +212,6 @@
     }
 
     /* Stage 3: toggles below h1, full width, left-aligned, side-by-side */
-    /* Pruefhilfe: r = Grundlinienraster, f = feine Unterteilung,
-       g = gemessene Grundlinien, s = senkrechte Linien */
-    body { position: relative; }
-    #raster {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 900; display: none;
-    }
-    body.raster-an #raster { display: block; }
-    #raster i { position: absolute; left: 0; right: 0; height: 1px; display: block; }
-    #raster i.g1 { background: color-mix(in oklab, var(--purple) 70%, transparent); }
-    #raster i.g2 { background: color-mix(in oklab, var(--purple) 20%, transparent); display: none; }
-    #raster i.g4 { background: color-mix(in oklab, var(--purple) 10%, transparent); display: none; }
-    body.fein-an #raster i.g2, body.fein-an #raster i.g4 { display: block; }
-    #raster b { position: absolute; top: 0; bottom: 0; width: 1px; display: none;
-      background: color-mix(in oklab, var(--purple) 26%, transparent); }
-    body.senk-an #raster b { display: block; }
-    #raster u { position: absolute; left: 0; right: 0; height: 1px;
-      background: #1D9E75; display: none; }
-    #raster u.ab { background: #E24B4A; }
-    body.grund-an #raster u { display: block; }
-    #raster s { position: fixed; left: 12px; bottom: 12px; display: block;
-      font: 500 12px/1.4 "Space Grotesk", sans-serif; color: var(--purple);
-      background: var(--bg); padding: 8px 12px; border-radius: 8px;
-      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--purple) 40%, transparent);
-      text-decoration: none; white-space: pre; }
-
     @media (max-width: 1024px) {
       .topbar { flex-direction: column; }
       .topbar > .toggles { width: auto; }
@@ -1147,91 +1121,6 @@
         if (!p.contains(e.target) && p.__close) p.__close();
       });
     });
-  </script>
-  <script>
-  (function(){
-    // Raster der Stufe: Zeilenabstand ihres Grundmasses, aus dem CSS gelesen
-    const raster = () => parseFloat(getComputedStyle(document.documentElement)
-                           .getPropertyValue('--raster')) || 24;
-    // Bedienelement-Beschriftungen duerfen zentriert sein und bleiben aussen vor.
-    const STILE = 'h1,.label,.impressum p,.impressum h2,.results-empty,.result-line,.error,.pill-value';
-    let el = null;
-
-    function textKind(t){
-      return getComputedStyle(t).display.includes('flex') && t.firstElementChild ? t.firstElementChild : t;
-    }
-    function grundlinieVon(t){
-      const z = textKind(t);
-      const s = document.createElement('span');
-      s.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
-      z.insertBefore(s, z.firstChild);
-      const y = s.getBoundingClientRect().top + window.scrollY;
-      s.remove();
-      return y;
-    }
-
-    function bauen(){
-      const SCHRITT = raster();
-      el?.remove();
-      el = document.createElement('div'); el.id = 'raster';
-      const hoehe = document.documentElement.scrollHeight;
-      const h1 = document.querySelector('h1');
-      const null0 = h1 ? grundlinieVon(h1) : 0;      // Nullpunkt: erste Grundlinie, nicht der Rand
-      const fein = SCHRITT / 6;   // Unterteilung nach der Engine
-      let html = '';
-      const start = null0 - Math.ceil(null0 / SCHRITT) * SCHRITT;
-      for (let y = start; y < hoehe; y += fein){
-        const n = Math.round((y - null0) / fein);
-        const klasse = n % 6 === 0 ? 'g1' : (n % 3 === 0 ? 'g2' : 'g4');
-        html += '<i class="' + klasse + '" style="top:' + y + 'px"></i>';
-      }
-      const rand = parseFloat(getComputedStyle(document.body).paddingLeft) || 0;
-      for (let x = rand; x < document.documentElement.scrollWidth; x += SCHRITT)
-        html += '<b style="left:' + x + 'px"></b>';
-      el.innerHTML = html;
-
-      let treffer = 0, alle = 0;
-      for (const t of document.querySelectorAll(STILE)){
-        if (t.offsetParent === null && t.tagName !== 'H1') continue;
-        const cs = getComputedStyle(t);
-        const lh = parseFloat(cs.lineHeight) || 0;
-        const cap = parseFloat(cs.getPropertyValue('--groesse')) || 0;
-        const innen = t.getBoundingClientRect().height - parseFloat(cs.paddingTop || 0)
-                                                      - parseFloat(cs.paddingBottom || 0);
-        // getrimmt: Boxhoehe = Versalhoehe + (n-1) x Zeilenabstand
-        const zeilen = (lh > 0 && cap > 0 && innen > cap)
-          ? Math.max(1, Math.round((innen - cap) / lh) + 1) : 1;
-        const erste = grundlinieVon(t);
-        for (let i = 0; i < zeilen; i++){
-          const y = erste + i * lh;
-          const rest = (((y - null0) % SCHRITT) + SCHRITT) % SCHRITT;
-          alle++; if (rest < 0.6 || rest > SCHRITT - 0.6) treffer++;
-          const m = document.createElement('u');
-          m.style.top = y + 'px';
-          if (!(rest < 0.6 || rest > SCHRITT - 0.6)) m.className = 'ab';
-          el.appendChild(m);
-        }
-      }
-      const s = document.createElement('s');
-      s.textContent = 'Raster ' + SCHRITT + ' \u00b7 fein ' + fein
-        + '\n' + treffer + ' von ' + alle + ' Grundlinien auf dem Raster'
-        + '\ngruen = auf dem Raster, rot = daneben'
-        + '\nr Raster \u00b7 f fein \u00b7 g Grundlinien \u00b7 s senkrecht';
-      el.appendChild(s);
-      document.body.appendChild(el);
-    }
-
-    addEventListener('keydown', e => {
-      if (e.target instanceof Element && e.target.closest('input,select,textarea')) return;
-      const k = e.key.toLowerCase();
-      if (!'rfgs'.includes(k)) return;
-      if (!el) bauen();
-      if (k === 'r') document.body.classList.toggle('raster-an');
-      else { document.body.classList.add('raster-an');
-             document.body.classList.toggle({f:'fein-an', g:'grund-an', s:'senk-an'}[k]); }
-    });
-    addEventListener('resize', () => { if (el) bauen(); });
-  })();
   </script>
 </body>
 </html>
