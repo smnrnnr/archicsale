@@ -56,6 +56,13 @@
       --accent-raw:   rgb(173,109,230);   /* chosen accent swatch */
       --radius-field: 36px;               /* Pillen: halbe Hoehe -> Stadionform */
       --radius-panel: 36px;               /* Flaechen: schrumpft mit den Stufen */
+      --versal: 0.7;                      /* Versalanteil der Schrift, einmal */
+      --v-xl: 64px;                       /* h1                      4:1 */
+      --v-l:  24px;                       /* Ueberschriften          3:2 */
+      --v-m:  20px;                       /* Button                  5:4 */
+      --v-s:  16px;                       /* Grundmass: Felder, Ergebnis */
+      --v-xs: 12px;                       /* Toggle, Impressum       4:3 */
+      --v-xxs: 8px;                       /* Impressum mobil         2:1 */
       --kontur: 3px;                      /* Strichstaerke: schrumpft mit den Stufen */
       --radius-liste: 24px;               /* Auswahlliste: flacher als die Flaechen */
       --radius-round: 999px;              /* toggles / buttons */
@@ -82,6 +89,16 @@
       transition: background .35s ease, color .35s ease,
                   border-color .35s ease, border-radius .35s ease;
     }
+
+    h1, .label, .toggle button, .btn-pill, .pill input, .pill select,
+    .pill-value, .select-option, .result-line, .results-empty, .error,
+    .impressum h2, .impressum p {
+      font-size: calc(var(--groesse) / var(--versal));
+      line-height: calc(var(--groesse) * 3 / 2);
+      text-box: trim-both cap alphabetic;
+    }
+    /* Fliesstext: Faktor 2/1 statt 3/2 - in Ruecksprache */
+    .results-empty, .error, .impressum p { line-height: calc(var(--groesse) * 2); }
 
     * { box-sizing: border-box; }
 
@@ -114,8 +131,7 @@
 
     h1 {
       font-weight: 500;
-      font-size: 96px;
-      line-height: 1;  /* Ausnahme: Displaygroesse bleibt eng, Faktor 1/1 statt 3/2 */
+      --groesse: var(--v-xl);
       margin: 0;
       letter-spacing: -0.01em;
       overflow-wrap: break-word;
@@ -149,8 +165,7 @@
     .toggle button {
       font-family: inherit;
       font-weight: 700;
-      font-size: 18px;
-      line-height: 1.5;
+      --groesse: var(--v-xs);
       letter-spacing: 0.01em;
       color: var(--purple);
       background: transparent;
@@ -182,6 +197,20 @@
     }
 
     /* Stage 3: toggles below h1, full width, left-aligned, side-by-side */
+    /* Entwicklungshilfe: Taste r = Raster, Taste g = gemessene Grundlinien */
+    body { position: relative; }
+    #raster {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 900; display: none;
+    }
+    body.raster-an #raster { display: block; }
+    #raster .linie { position: absolute; left: 0; right: 0; height: 1px;
+      background: color-mix(in oklab, var(--purple) 30%, transparent); }
+    #raster .linie.stark { background: color-mix(in oklab, var(--purple) 55%, transparent); }
+    #raster .grund { position: absolute; left: 0; right: 0; height: 1px;
+      background: #E24B4A; display: none; }
+    body.grund-an #raster .grund { display: block; }
+
     @media (max-width: 1024px) {
       .topbar { flex-direction: column; }
       .topbar > .toggles { width: auto; }
@@ -204,8 +233,7 @@
     .label {
       display: block;
       font-weight: 500;
-      font-size: 36px;
-      line-height: 1.5;
+      --groesse: var(--v-l);
       margin: 0 0 24px;
     }
 
@@ -240,14 +268,13 @@
     .pill select {
       font-family: inherit;
       font-weight: 500;
-      font-size: 24px;
+      --groesse: var(--v-s);
       color: var(--purple);
       background: transparent;
       border: none;
       outline: none;
       width: 100%;
       padding: 12px 30px;
-      line-height: 1.5;
     }
 
     .pill input::placeholder { color: var(--purple); opacity: .55; }
@@ -297,11 +324,10 @@
 
     .pill-value {
       font-weight: 500;
-      font-size: 24px;
+      --groesse: var(--v-s);
       color: var(--purple);
       width: 100%;
       padding: 12px 64px 12px 30px;
-      line-height: 1.5;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -331,9 +357,8 @@
 
     .select-option {
       font-weight: 500;
-      font-size: 24px;
+      --groesse: var(--v-s);
       color: var(--purple);
-      line-height: 1.5;
       padding: 6px 18px;
       border-radius: var(--radius-round);
       cursor: pointer;
@@ -368,7 +393,7 @@
     }
 
     .results-empty {
-      font-size: 24px;
+      --groesse: var(--v-s);
       font-weight: 500;
       opacity: .5;
       text-align: left;
@@ -381,13 +406,14 @@
       opacity: 1;
     }
 
+    .result-line > * { text-box: trim-both cap alphabetic; }
     .result-line {
       display: flex;
+      min-height: 32px;
       align-items: center;
       width: 100%;
       gap: 20px;
-      font-size: 24px;
-      line-height: 1.5;
+      --groesse: var(--v-s);
       font-weight: 500;
     }
 
@@ -431,18 +457,16 @@
 
     .error {
       color: var(--error);
-      font-size: 20px;
+      --groesse: var(--v-xs);
       font-weight: 500;
       margin: 18px 0 0;
-      line-height: 1.5;
     }
 
     /* ── Reset / Support buttons ─────────────────────── */
     .btn-pill {
       font-family: inherit;
       font-weight: 500;
-      font-size: 32px;
-      line-height: 1.5;
+      --groesse: var(--v-m);
       color: var(--purple);
       background: transparent;
       --line: var(--border);
@@ -477,19 +501,17 @@
 
     .impressum { max-width: 1160px; }
     .impressum h2 {
-      font-size: 24px;
-      line-height: 1.5;
+      --groesse: var(--v-s);
       font-weight: 500;
       margin: 0 0 14px;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: block;
       user-select: none;
     }
     .impressum h2::after {
       content: "";
       display: inline-block;
+      margin-left: 8px;
       width: 14px;
       height: 8px;
       background: var(--purple);
@@ -505,11 +527,10 @@
       transition: max-height .35s ease;
     }
     .imprint-contact.open { max-height: 220px; }
-    .imprint-contact p { padding-bottom: 1.1em; margin-bottom: 0; }
+    .imprint-contact p { padding-bottom: 16px; margin-bottom: 0; }
     .impressum p {
-      font-size: 16px;
+      --groesse: var(--v-xs);
       font-weight: 500;
-      line-height: 1.5;
       margin: 0 0 10px;
       opacity: .92;
     }
@@ -523,17 +544,17 @@
       :root { --radius-panel: 24px; }
       body { padding: 40px; }
       .page { min-height: calc(100vh - 80px); }
-      h1 { font-size: 72px; }
+      h1 { --groesse: 48px; }
       .topbar { gap: 48px; margin-bottom: 56px; }
       .grid { gap: 48px; }
-      .label { font-size: 32px; margin-bottom: 16px; }
+      .label { --groesse: var(--v-m); margin-bottom: 16px; }
       .field { margin-bottom: 32px; }
       .row-2 { margin-bottom: 32px; }
       .results-panel { padding: 20px; gap: 12px; }
       :root { --radius-liste: 20px; }
-      .result-line { font-size: 20px; }
-      .btn-pill { font-size: 24px; }
-      .error { font-size: 16px; }
+      .result-line { --groesse: var(--v-s); }
+      .btn-pill { --groesse: var(--v-s); }
+      .error { --groesse: var(--v-xs); }
       .reset-wrap { margin-top: 36px; }
       .footer { padding-top: 64px; }
     }
@@ -549,30 +570,30 @@
       body { padding: 16px; }
       .page { min-height: calc(100vh - 32px); }
       .topbar { flex-direction: column; gap: 16px; margin-bottom: 24px; }
-      h1 { max-width: 100%; font-size: 48px; }
+      h1 { max-width: 100%; --groesse: 32px; }
       .pill { min-height: 40px; height: 40px; display: flex; align-items: center; }
       .toggle { min-height: 40px; height: 40px; padding: 4px; }
-      .toggle button { font-size: 16px; padding: 0 16px; }
+      .toggle button { --groesse: var(--v-xs); padding: 0 16px; }
       .toggles { gap: 12px; justify-content: flex-start; flex-wrap: wrap; }
-      .btn-pill { min-height: 40px; height: 40px; padding: 0 20px; font-size: 20px; }
-      .pill input, .pill select { font-size: 16px; padding: 0 16px; height: 100%; }
-      .pill-value { font-size: 16px; padding: 0 36px 0 16px; display: flex; align-items: center; }
+      .btn-pill { min-height: 40px; height: 40px; padding: 0 20px; --groesse: var(--v-xs); }
+      .pill input, .pill select { --groesse: var(--v-xs); padding: 0 16px; height: 100%; }
+      .pill-value { --groesse: var(--v-xs); padding: 0 36px 0 16px; display: flex; align-items: center; }
       .pill.has-chevron::after { right: 16px; width: 14px; height: 8px; }
-      .select-option { font-size: 16px; padding: 4px 12px; }
+      .select-option { --groesse: var(--v-xs); padding: 4px 12px; }
       .select-panel { padding: 8px; }
-      .label { font-size: 20px; margin-bottom: 8px; }
+      .label { --groesse: var(--v-s); margin-bottom: 8px; }
       .field { margin-bottom: 16px; }
       .output { margin-top: 16px; }
       .row-2 { gap: 12px; margin-bottom: 16px; }
       .results-panel { padding: 16px; gap: 12px; min-height: 96px; }
-      .result-line { font-size: 16px; gap: 12px; }
-      .results-empty { font-size: 16px; }
-      .error { font-size: 12px; margin-top: 8px; }
+      .result-line { --groesse: var(--v-xs); gap: 12px; }
+      .results-empty { --groesse: var(--v-xs); }
+      .error { --groesse: var(--v-xs); margin-top: 8px; }
       .reset-wrap { margin-top: 16px; }
       .footer { padding-top: 24px; gap: 16px; }
-      .impressum h2 { font-size: 16px; margin-bottom: 8px; }
-      .impressum p { font-size: 12px; margin-bottom: 8px; }
-      .imprint-contact p { padding-bottom: 0.9em; }
+      .impressum h2 { --groesse: var(--v-xs); margin-bottom: 8px; }
+      .impressum p { --groesse: var(--v-xxs); margin-bottom: 8px; }
+      .imprint-contact p { padding-bottom: 12px; }
     }
   </style>
   <script defer src="https://umami-lyart-three.vercel.app/script.js" data-website-id="50298610-f845-48c4-9a75-a327fc97a6e3"></script>
@@ -665,7 +686,7 @@
         <div class="imprint-contact" id="imprintContact" aria-hidden="true">
           <p data-i18n-html="imprintContact">Simon Renner, Lenaustraße 14, 70193 Stuttgart<br>E-Mail: hello@alltag.studio</p>
         </div>
-        <p data-i18n-html="imprintBody">Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:0.5em"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.</p>
+        <p data-i18n-html="imprintBody">Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:12px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.</p>
       </div>
       <a class="btn-pill" href="https://ko-fi.com/alltagstudio" target="_blank" rel="noopener" data-i18n="support">Unterstützen</a>
     </footer>
@@ -728,7 +749,7 @@
         reset: 'Zurücksetzen', support: 'Unterstützen', copy: 'Kopieren',
         imprint: 'Impressum',
         imprintContact: 'Simon Renner, Lenaustraße 14, 70193 Stuttgart<br>E-Mail: hello@alltag.studio',
-        imprintBody: 'Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:0.5em"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.',
+        imprintBody: 'Diese Website verwendet keine Cookies und speichert keine persönlichen Daten. Zur anonymen Messung der Seitenaufrufe wird Umami Analytics eingesetzt – ein datenschutzfreundliches Tool ohne personenbezogene Erfassung.<br><span style="display:block;height:12px"></span>Wenn dir der Maßstabsumrechner hilft, freue ich mich über einen Beitrag zur Unterstützung meiner Projekte.',
       },
       en: {
         metric: 'metric', imperial: 'imperial', de: 'German', en: 'English',
@@ -742,7 +763,7 @@
         reset: 'Reset', support: 'Support', copy: 'Copy',
         imprint: 'Imprint',
         imprintContact: 'Simon Renner, Lenaustraße 14, 70193 Stuttgart, Germany<br>Email: hello@alltag.studio',
-        imprintBody: 'This website uses no cookies and stores no personal data. Anonymous page view statistics are collected via Umami Analytics, a privacy-friendly tool with no personal tracking.<br><span style="display:block;height:0.5em"></span>If the Scale Converter helps you, I would be happy about a contribution to support my projects.',
+        imprintBody: 'This website uses no cookies and stores no personal data. Anonymous page view statistics are collected via Umami Analytics, a privacy-friendly tool with no personal tracking.<br><span style="display:block;height:12px"></span>If the Scale Converter helps you, I would be happy about a contribution to support my projects.',
       },
     };
     const t = (k) => I18N[state.lang][k];
@@ -1073,6 +1094,42 @@
         if (!p.contains(e.target) && p.__close) p.__close();
       });
     });
+  </script>
+  <script>
+  (function(){
+    const SCHRITT = 24;            // Zeilenabstand des Grundmasses
+    let el = null;
+    function bauen(){
+      el?.remove();
+      el = document.createElement('div'); el.id = 'raster';
+      const hoehe = document.documentElement.scrollHeight;
+      let html = '';
+      for (let y = 0; y < hoehe; y += SCHRITT)
+        html += '<div class="linie' + (y % (SCHRITT*4) ? '' : ' stark') + '" style="top:' + y + 'px"></div>';
+      el.innerHTML = html;
+      document.body.appendChild(el);
+      grundlinien();
+    }
+    function grundlinien(){
+      const sel = 'h1,.label,.impressum p,.impressum h2,.results-empty,.result-line,.error,.pill-value,.toggle button[aria-pressed="true"]';
+      for (const t of document.querySelectorAll(sel)){
+        const s = document.createElement('span');
+        s.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+        t.insertBefore(s, t.firstChild);
+        const y = s.getBoundingClientRect().top + window.scrollY;
+        s.remove();
+        const m = document.createElement('div');
+        m.className = 'grund'; m.style.top = y + 'px';
+        el.appendChild(m);
+      }
+    }
+    addEventListener('keydown', e => {
+      if (e.target instanceof Element && e.target.closest('input,select,textarea')) return;
+      if (e.key === 'r'){ if(!el) bauen(); document.body.classList.toggle('raster-an'); }
+      if (e.key === 'g'){ if(!el) bauen(); document.body.classList.add('raster-an'); document.body.classList.toggle('grund-an'); }
+    });
+    addEventListener('resize', () => { if (el) bauen(); });
+  })();
   </script>
 </body>
 </html>
