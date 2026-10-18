@@ -455,7 +455,13 @@
     .result-line .value {
       flex: 1;
       text-align: right;
+      white-space: nowrap;      /* Zahl und Einheit bleiben zusammen */
       font-variant-numeric: tabular-nums;
+    }
+    .result-line .r-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     /* parentheticals — (50%), (1:1) — in the bright lila tone, with the
@@ -528,7 +534,6 @@
       justify-content: space-between;
       column-gap: 24px;
       row-gap: 48px;        /* zwei Rasterschritte zum Impressum */
-      margin-top: auto;
       padding-top: 96px;
     }
 
@@ -585,7 +590,7 @@
       .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 24px; }
       .field { margin-bottom: 24px; }
       .row-2 { margin-bottom: 24px; }
-      .results-panel { padding: 24px 32px; gap: 16px; }
+      .results-panel { padding: 24px 32px; gap: 16px; min-height: 192px; }
       .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); }
       .btn-pill { --groesse: var(--v-s); --korrektur: var(--k-s); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
@@ -595,7 +600,7 @@
 
     @media (max-width: 880px) {
       .grid { grid-template-columns: 1fr; gap: 0; }
-      .output { margin-top: 36px; }
+      .output { margin-top: 48px; }   /* zwei Rasterschritte */
     }
 
     @media (max-width: 500px) {
@@ -625,7 +630,7 @@
       .field { margin-bottom: 18px; }
       .output { margin-top: 18px; }
       .row-2 { gap: 12px; margin-bottom: 18px; }
-      .results-panel { padding: 18px 24px; gap: 12px; min-height: 90px; }
+      .results-panel { padding: 18px 24px; gap: 12px; min-height: 144px; }
       .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); gap: 12px; min-height: 24px; }
       .results-empty { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-top: 8px; }
