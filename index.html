@@ -61,6 +61,7 @@
       --k-l:   0px;
       --k-s:   8px;
       --k-xs: 12px;
+      --raster: 24px;                     /* = Grundmass 16 x 3/2 */
       --v-xl: 80px;                       /* h1   5:1, Zeilenabstand 120 = 5 Rasterzeilen */
       --v-l:  24px;                       /* Ueberschriften          3:2 */
 
@@ -301,7 +302,7 @@
 
     /* Korrektur des Stils: mittig zentriert liegt die Grundlinie 2 px neben
        dem Raster 6. Verschiebung ohne Einfluss auf das Layout. */
-    .pill input, .pill select, .pill-value { position: relative; top: 4px; }
+    .pill input, .pill select, .pill-value { position: relative; }
 
     .pill input::placeholder { color: var(--purple); opacity: .55; }
 
@@ -564,24 +565,23 @@
     .footer .btn-pill { white-space: nowrap; }
 
     /* ── Mobile (must come last to override base styles) ── */
-    /* Stufe mittel: muss nach allen Grundregeln stehen, sonst ueberschreiben diese sie */
+    /* Stufe mittel: muss nach allen Grundregeln stehen, sonst ueberschreiben diese sie.
+       Raster bleibt 24; nur die h1 greift eine Sprosse tiefer. */
     @media (max-width: 1024px) {
-      :root { --radius-panel: 24px; }
+      :root { --radius-panel: 24px; --radius-liste: 20px; --v-xl: 48px; }
       body { padding: 40px; }
       .page { min-height: calc(100vh - 80px); }
-      h1 { --groesse: 48px; --korrektur: var(--k-xl); }
-      .topbar { gap: 48px; margin-bottom: 56px; }
+      .topbar { gap: 48px; margin-bottom: 48px; }
       .grid { gap: 48px; }
-      .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 16px; }
-      .field { margin-bottom: 32px; }
-      .row-2 { margin-bottom: 32px; }
-      .results-panel { padding: 20px; gap: 12px; }
-      :root { --radius-liste: 20px; }
+      .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 24px; }
+      .field { margin-bottom: 24px; }
+      .row-2 { margin-bottom: 24px; }
+      .results-panel { padding: 24px; gap: 24px; }
       .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); }
       .btn-pill { --groesse: var(--v-s); --korrektur: var(--k-s); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
-      .reset-wrap { margin-top: 36px; }
-      .footer { padding-top: 64px; }
+      .reset-wrap { margin-top: 24px; }
+      .footer { padding-top: 48px; }
     }
 
     @media (max-width: 880px) {
@@ -591,34 +591,40 @@
 
     @media (max-width: 500px) {
       /* Stufe klein: Werkzeug soll ohne Scrollen ins Sichtfeld passen */
-      :root { --radius-panel: 16px; --kontur: 2px; --radius-liste: 16px; }
+      /* Transposition 3:4 des grossen Systems; h1 eine Sprosse tiefer */
+      :root {
+        --radius-panel: 16px; --kontur: 2px; --radius-liste: 16px;
+        --raster: 18px;
+        --v-xl: 36px; --v-l: 18px; --v-s: 12px; --v-xs: 9px; --v-xxs: 9px;
+        --k-xl:  0px; --k-l:  0px; --k-s:  6px; --k-xs: 9px;
+      }
       body { padding: 16px; }
       .page { min-height: calc(100vh - 32px); }
-      .topbar { flex-direction: column; gap: 16px; margin-bottom: 24px; }
-      h1 { max-width: 100%; --groesse: 32px; --korrektur: var(--k-xl); }
-      .pill { min-height: 40px; height: 40px; display: flex; align-items: center; }
-      .toggle { min-height: 40px; height: 40px; padding: 4px; }
+      .topbar { flex-direction: column; gap: 18px; margin-bottom: 36px; }
+      h1 { max-width: 100%; --groesse: var(--v-xl); --korrektur: var(--k-xl); }
+      .pill { min-height: 36px; height: 36px; display: flex; align-items: center; }
+      .toggle { min-height: 36px; height: 36px; padding: 4px; }
       .toggle button { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 16px; }
-      .toggles { gap: 12px; justify-content: flex-start; flex-wrap: wrap; }
-      .btn-pill { min-height: 40px; height: 40px; padding: 0 20px; --groesse: var(--v-xs); --korrektur: var(--k-xs); }
-      .pill input, .pill select { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 16px; height: 100%; }
-      .pill-value { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 0 36px 0 16px; display: flex; align-items: center; }
+      .toggles { gap: 18px; justify-content: flex-start; flex-wrap: wrap; }
+      .btn-pill { min-height: 36px; height: 36px; padding: 0 20px; --groesse: var(--v-s); --korrektur: var(--k-s); }
+      .pill input, .pill select { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 0 16px; height: 100%; }
+      .pill-value { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 0 36px 0 16px; display: flex; align-items: center; }
       .pill.has-chevron::after { right: 16px; width: 14px; height: 8px; }
-      .select-option { --groesse: var(--v-xs); --korrektur: var(--k-xs); padding: 4px 12px; }
+      .select-option { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 4px 12px; }
       .select-panel { padding: 8px; }
-      .label { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 8px; }
-      .field { margin-bottom: 16px; }
-      .output { margin-top: 16px; }
-      .row-2 { gap: 12px; margin-bottom: 16px; }
-      .results-panel { padding: 16px; gap: 12px; min-height: 96px; }
-      .result-line { --groesse: var(--v-xs); --korrektur: var(--k-xs); gap: 12px; }
+      .label { --groesse: var(--v-l); --korrektur: var(--k-l); margin-bottom: 18px; }
+      .field { margin-bottom: 18px; }
+      .output { margin-top: 18px; }
+      .row-2 { gap: 12px; margin-bottom: 18px; }
+      .results-panel { padding: 18px; gap: 18px; min-height: 90px; }
+      .result-line { --groesse: var(--v-s); --korrektur: var(--k-s); gap: 12px; min-height: 24px; }
       .results-empty { --groesse: var(--v-xs); --korrektur: var(--k-xs); }
       .error { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-top: 8px; }
-      .reset-wrap { margin-top: 16px; }
-      .footer { padding-top: 24px; gap: 16px; }
-      .impressum h2 { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 8px; }
-      .impressum p { --groesse: var(--v-xxs); --korrektur: var(--k-xs); margin-bottom: 8px; }
-      .imprint-contact p { padding-bottom: 12px; }
+      .reset-wrap { margin-top: 18px; }
+      .footer { padding-top: 36px; gap: 18px; }
+      .impressum h2 { --groesse: var(--v-s); --korrektur: var(--k-s); margin-bottom: 18px; }
+      .impressum p { --groesse: var(--v-xs); --korrektur: var(--k-xs); margin-bottom: 18px; }
+      .imprint-contact p { padding-bottom: 18px; }
     }
   </style>
   <script defer src="https://umami-lyart-three.vercel.app/script.js" data-website-id="50298610-f845-48c4-9a75-a327fc97a6e3"></script>
@@ -1122,7 +1128,9 @@
   </script>
   <script>
   (function(){
-    const SCHRITT = 24;                 // Raster = Zeilenabstand des Grundmasses (16 x 3/2)
+    // Raster der Stufe: Zeilenabstand ihres Grundmasses, aus dem CSS gelesen
+    const raster = () => parseFloat(getComputedStyle(document.documentElement)
+                           .getPropertyValue('--raster')) || 24;
     // Bedienelement-Beschriftungen duerfen zentriert sein und bleiben aussen vor.
     const STILE = 'h1,.label,.impressum p,.impressum h2,.results-empty,.result-line,.error,.pill-value';
     let el = null;
@@ -1141,6 +1149,7 @@
     }
 
     function bauen(){
+      const SCHRITT = raster();
       el?.remove();
       el = document.createElement('div'); el.id = 'raster';
       const hoehe = document.documentElement.scrollHeight;
