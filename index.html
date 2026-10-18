@@ -444,34 +444,33 @@
        es schon weit vor den Mobilbreiten eng. Innen der Durchschuss,
        aussen der Panel-Abstand. */
     @container ergebnis (max-width: 560px) {
+      /* Raster statt Flex-Umbruch: Label ueber Wert, das Kopierzeichen
+         daneben ueber beide Zeilen und mittig dazu. */
       .result-line {
-        flex-wrap: wrap;
-        /* sonst streckt align-content die beiden Zeilen auseinander */
-        align-content: flex-start;
-        align-items: center;
-        /* Durchschuss = Zeilenabstand - Versalhoehe = Groesse / 2,
-           also 8 im grossen und 6 im kleinen Raster. */
-        row-gap: calc(var(--groesse) / 2);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        /* eine Stufe ueber dem Durchschuss, aber unter dem Abstand
+           zwischen den Ergebnissen (16 / 12) */
+        row-gap: calc(var(--groesse) * 3 / 4);
         column-gap: 12px;
         min-height: 0;
       }
       .result-line .r-label {
-        /* Volle Zeile, damit der Wert umbricht: darf nicht schrumpfen, und
-           die 2 x -6px Aussenabstand der Auswahl muessen aufgerechnet
-           werden, sonst bleibt rechts eine Luecke. */
-        flex: 0 0 calc(100% + 12px);
+        grid-column: 1;
+        grid-row: 1;
         white-space: normal;
         overflow: visible;
         text-overflow: clip;
       }
-      /* Basis 0: der Wert nimmt den Rest der Zeile und kuerzt mit
-         Auslassungspunkten, statt das Kopierzeichen umzubrechen. */
-      .result-line .value { flex: 1 1 0; text-align: left; }
-      /* Das Kopierzeichen (20) ist hoeher als die Versalhoehe und wuerde die
-         zweite Zeile tiefer setzen; so bleibt der Abstand der Durchschuss. */
+      .result-line .value {
+        grid-column: 1;
+        grid-row: 2;
+        text-align: left;
+      }
       .result-line .copy-btn {
+        grid-column: 2;
+        grid-row: 1 / 3;
         align-self: center;
-        margin-block: calc((var(--groesse) - 20px) / 2);
       }
     }
 
