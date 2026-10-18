@@ -277,6 +277,10 @@
       padding: 12px 30px;
     }
 
+    /* Korrektur des Stils: mittig zentriert liegt die Grundlinie 2 px neben
+       dem Raster 6. Verschiebung ohne Einfluss auf das Layout. */
+    .pill input, .pill select, .pill-value { position: relative; top: -2px; }
+
     .pill input::placeholder { color: var(--purple); opacity: .55; }
 
     .pill select {
@@ -1097,25 +1101,37 @@
   </script>
   <script>
   (function(){
-    const SCHRITT = 24;            // Zeilenabstand des Grundmasses
+    const SCHRITT = 6;             // Rasterschritt aus den Zeilenabstaenden
     let el = null;
     function bauen(){
       el?.remove();
       el = document.createElement('div'); el.id = 'raster';
       const hoehe = document.documentElement.scrollHeight;
+      const null0 = ersteGrundlinie();          // Raster beginnt an der ersten Grundlinie, nicht am Rand
       let html = '';
-      for (let y = 0; y < hoehe; y += SCHRITT)
-        html += '<div class="linie' + (y % (SCHRITT*4) ? '' : ' stark') + '" style="top:' + y + 'px"></div>';
+      for (let y = null0 % SCHRITT; y < hoehe; y += SCHRITT)
+        html += '<div class="linie' + ((y - null0) % (SCHRITT*4) ? '' : ' stark') + '" style="top:' + y + 'px"></div>';
       el.innerHTML = html;
       document.body.appendChild(el);
       grundlinien();
     }
+    function ersteGrundlinie(){
+      const h = document.querySelector('h1');
+      if (!h) return 0;
+      const s = document.createElement('span');
+      s.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+      h.insertBefore(s, h.firstChild);
+      const y = s.getBoundingClientRect().top + window.scrollY;
+      s.remove();
+      return y;
+    }
     function grundlinien(){
       const sel = 'h1,.label,.impressum p,.impressum h2,.results-empty,.result-line,.error,.pill-value,.toggle button[aria-pressed="true"]';
       for (const t of document.querySelectorAll(sel)){
+        const z = getComputedStyle(t).display.includes('flex') && t.firstElementChild ? t.firstElementChild : t;
         const s = document.createElement('span');
         s.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
-        t.insertBefore(s, t.firstChild);
+        z.insertBefore(s, z.firstChild);
         const y = s.getBoundingClientRect().top + window.scrollY;
         s.remove();
         const m = document.createElement('div');
