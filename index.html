@@ -1123,7 +1123,8 @@
   <script>
   (function(){
     const SCHRITT = 24;                 // Raster = Zeilenabstand des Grundmasses (16 x 3/2)
-    const STILE = 'h1,.label,.impressum p,.impressum h2,.results-empty,.result-line,.error,.pill-value,.toggle button[aria-pressed="true"]';
+    // Bedienelement-Beschriftungen duerfen zentriert sein und bleiben aussen vor.
+    const STILE = 'h1,.label,.impressum p,.impressum h2,.results-empty,.result-line,.error,.pill-value';
     let el = null;
 
     function textKind(t){
@@ -1161,12 +1162,24 @@
       let treffer = 0, alle = 0;
       for (const t of document.querySelectorAll(STILE)){
         if (t.offsetParent === null && t.tagName !== 'H1') continue;
-        const y = grundlinieVon(t);
-        const rest = (((y - null0) % SCHRITT) + SCHRITT) % SCHRITT;
-        alle++; if (rest < 0.6 || rest > SCHRITT - 0.6) treffer++;
-        const m = document.createElement('u');
-        m.style.top = y + 'px';
-        el.appendChild(m);
+        const cs = getComputedStyle(t);
+        const lh = parseFloat(cs.lineHeight) || 0;
+        const cap = parseFloat(cs.getPropertyValue('--groesse')) || 0;
+        const innen = t.getBoundingClientRect().height - parseFloat(cs.paddingTop || 0)
+                                                      - parseFloat(cs.paddingBottom || 0);
+        // getrimmt: Boxhoehe = Versalhoehe + (n-1) x Zeilenabstand
+        const zeilen = (lh > 0 && cap > 0 && innen > cap)
+          ? Math.max(1, Math.round((innen - cap) / lh) + 1) : 1;
+        const erste = grundlinieVon(t);
+        for (let i = 0; i < zeilen; i++){
+          const y = erste + i * lh;
+          const rest = (((y - null0) % SCHRITT) + SCHRITT) % SCHRITT;
+          alle++; if (rest < 0.6 || rest > SCHRITT - 0.6) treffer++;
+          const m = document.createElement('u');
+          m.style.top = y + 'px';
+          if (i) m.style.opacity = '.55';
+          el.appendChild(m);
+        }
       }
       const s = document.createElement('s');
       s.textContent = 'Raster ' + SCHRITT + ' \u00b7 fein ' + fein
