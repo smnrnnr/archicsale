@@ -348,7 +348,7 @@
     /* ── Custom select (replaces native dropdown) ────── */
     .pill.is-custom { cursor: pointer; user-select: none; }
     .pill.is-custom > select { display: none; }
-    .pill.is-custom:focus-visible { --line: var(--purple); }
+    .pill.is-custom:focus-visible { --line: var(--purple); outline: none; }
     .pill.open { --line: var(--purple); z-index: 60; }
     .pill.has-chevron.open::after { transform: translateY(-50%) rotate(180deg); }
 
@@ -376,7 +376,7 @@
       border-radius: var(--radius-liste);
       background: var(--bg);
       box-shadow: inset 0 0 0 var(--kontur) var(--purple), 0 22px 48px rgba(0,0,0,.38);
-      max-height: 264px;
+      max-height: 322px;   /* genau 10 Zeilen, keine angeschnittene */
       overflow-y: auto;
       overscroll-behavior: contain;
       scrollbar-width: none;
@@ -390,7 +390,7 @@
       --groesse: var(--v-s); --korrektur: var(--k-s);
       color: var(--purple);
       padding: 6px 18px;
-      border-radius: var(--radius-round);
+      border-radius: calc(var(--radius-liste) / 3);   /* abgeleitet vom Feld, nicht vollrund */
       cursor: pointer;
       transition: background .14s ease, color .14s ease;
     }
@@ -619,7 +619,7 @@
       .pill-value { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 0 36px 0 16px; display: flex; align-items: center; }
       .pill.has-chevron::after { right: 16px; width: 14px; height: 8px; }
       .select-option { --groesse: var(--v-s); --korrektur: var(--k-s); padding: 4px 12px; }
-      .select-panel { padding: 8px; }
+      .select-panel { padding: 8px; max-height: 190px; }
       .label { --groesse: var(--v-l); --korrektur: var(--k-l); margin-bottom: 18px; }
       .field { margin-bottom: 18px; }
       .output { margin-top: 18px; }
@@ -924,9 +924,9 @@
         btn.className = 'copy-btn'; btn.type = 'button';
         btn.innerHTML =
           '<svg viewBox="0 0 30 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
-            '<rect class="sq sq-back" x="8.45776" y="1" width="20.3732" height="24.8478" stroke-width="2"/>' +
-            '<rect class="sq sq-front" x="1" y="8.45773" width="20.3732" height="27.8309" stroke-width="2"/>' +
-            '<path class="sq sq-check" d="M5.5 22.5L9.5 26L17.5 18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+            '<rect class="sq sq-back" x="8.45776" y="1" width="20.3732" height="24.8478" stroke-width="3"/>' +
+            '<rect class="sq sq-front" x="1" y="8.45773" width="20.3732" height="27.8309" stroke-width="3"/>' +
+            '<path class="sq sq-check" d="M5.5 22.5L9.5 26L17.5 18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
           '</svg>';
         btn.setAttribute('aria-label', t('copy'));
         btn.dataset.value = value;
